@@ -2,7 +2,7 @@ import cv2
 import torch
 import numpy as np 
 import matplotlib.path as mplPath
-from sort import Sort
+from ConteoDeteccion.sort import Sort
 
 zonas = [
     np.array([[3,236],[3,184],[298,212],[288,291]]),
@@ -82,6 +82,6 @@ def detector(cap: object):
     cap.release()
 
 if __name__ == '__main__':
-    cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\proyecto-20240121T230321Z-001\proyecto\video.webm")
+    cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\8tavo Semestre\Deep Learnning\Proyecto\ContadorPersonasDeepLearnning\Video\video.webm")
 
     detector(cap)
