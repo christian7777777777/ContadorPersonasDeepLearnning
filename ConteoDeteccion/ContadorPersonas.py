@@ -9,7 +9,7 @@ zonas = [
     np.array([[532,184],[692,222],[762,150],[762,97],[727,93]]),
     np.array([[694,232],[555,400],[761,479],[760,302]]),
     np.array([[2,251],[290,310],[476,386],[744,509],[742,561],[8,558]]),
-    np.array([[47,139],[248,94],[583,117], [442,190]]),
+    np.array([[2,168],[4,145],[236,98],[648,122],[550,167],[459,190],[300,200]]),
     np.array([[313,214],[304,293],[542,389],[668,231],[520,192]]),
     np.array([[4,76],[2,136],[240,86],[297,70],[278,43],[207,38]])
 ]
@@ -58,11 +58,6 @@ def detector(cap: object):
 
         deteccion_zona =[0, 0, 0, 0, 0, 0, 0]
 
-        for i, zona in enumerate(zonas, start=1):
-            x_center, y_center = get_center_zona(zona)
-            cv2.polylines(img=frame, pts=[zona], isClosed=True, color=(0, 0, 255), thickness=4)
-            cv2.putText(img=frame, text=f"Zona{i}: {deteccion_zona[i-1]}", org=(x_center, y_center), fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=(255, 255, 255), thickness=2)
-
         for box in tracks:
             xc, yc = get_center(box)
             for i, zona in enumerate(zonas, start=0):
@@ -73,6 +68,10 @@ def detector(cap: object):
             cv2.putText(img=frame, text=f"Id: {box[4]}", org=(box[0], box[1]-10), fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=(0,255,0), thickness=2)
             cv2.rectangle(img=frame, pt1=(box[0], box[1]),pt2=(box[2], box[3]), color=(255, 0, 0), thickness=2)
 
+        for i, zona in enumerate(zonas, start=1):
+            x_center, y_center = get_center_zona(zona)
+            cv2.polylines(img=frame, pts=[zona], isClosed=True, color=(0, 0, 255), thickness=2)
+            cv2.putText(img=frame, text=f"Zona{i}: {deteccion_zona[i-1]}", org=(x_center, y_center), fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=(255, 255, 255), thickness=2)
 
         cv2.imshow("frame", frame)
 
