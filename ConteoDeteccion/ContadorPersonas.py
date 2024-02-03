@@ -80,7 +80,8 @@ def detector(cap: object):
 
     cap.release()
 
-if __name__ == '__main__':
-    cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\proyecto-20240121T230321Z-001\proyecto\video.webm")
 
-    detector(cap)
+#if __name__ == '__main__':
+#    cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\proyecto-20240121T230321Z-001\proyecto\video.webm")
+
+#    detector(cap)
