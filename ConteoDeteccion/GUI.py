@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 import cv2
-from ContadorPersonas import detector
+from ContadorPersonas import ContadorPersonas
 
 class PersonDetectionApp:
     def __init__(self, root):
@@ -46,11 +46,8 @@ class PersonDetectionApp:
         self.cap.release()
 
     def detect_people(self):
-        detector(self.cap)
-        #va = get_detection()
-
-        #for i, label in enumerate(self.zone_labels_text, start=0):
-        #    label.set(f"Zona {i+1}: {va[i]}")
+        contador = ContadorPersonas()
+        contador.detector(self.cap)
 
 
 
