@@ -17,7 +17,7 @@ class ContadorPersonas():
             np.array([[313,214],[304,293],[542,389],[668,231],[520,192]]),
             np.array([[4,76],[2,136],[240,86],[297,70],[278,43],[207,38]])
             ]
-        self.deteccion_zona = [0, 0, 0, 0, 0, 0, 0]
+        self.ListaDetecciones = []
    
     def load_model(self):
         model = torch.hub.load("ultralytics/yolov5", model="yolov5n", pretrained=True)
@@ -61,13 +61,13 @@ class ContadorPersonas():
             tracks = tracker.update(bboxes)
             tracks = tracks.astype(int)
 
-            self.deteccion_zona =[0, 0, 0, 0, 0, 0, 0]
+            deteccion_zona =[0, 0, 0, 0, 0, 0, 0]
 
             for box in tracks:
                 xc, yc = self.get_center(box)
                 for i, zona in enumerate(self.zonas, start=0):
                     if self.is_valid_detection(xc, yc, zona):
-                        self.deteccion_zona[i] += 1
+                        deteccion_zona[i] += 1
 
                 cv2.circle(img=frame, center=(xc, yc), radius=5, color=(0,255,0), thickness=-1)
                 cv2.putText(img=frame, text=f"Id: {box[4]}", org=(box[0], box[1]-10), fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=(0,255,0), thickness=2)
@@ -76,16 +76,39 @@ class ContadorPersonas():
             for i, zona in enumerate(self.zonas, start=1):
                 x_center, y_center = self.get_center_zona(zona)
                 cv2.polylines(img=frame, pts=[zona], isClosed=True, color=(0, 0, 255), thickness=2)
-                cv2.putText(img=frame, text=f"Zona{i}: {self.deteccion_zona[i-1]}", org=(x_center, y_center), fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=(255, 255, 255), thickness=2)
+                cv2.putText(img=frame, text=f"Zona{i}: {deteccion_zona[i-1]}", org=(x_center, y_center), fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=(255, 255, 255), thickness=2)
+
+            self.ListaDetecciones.append(deteccion_zona)
 
             cv2.imshow("frame", frame)
 
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
 
+        filas_unicas = []
+        for fila in self.ListaDetecciones:
+            if fila not in filas_unicas:
+                filas_unicas.append(fila)
+
+        self.MatrizDetecciones = np.array(filas_unicas)
+        self.ListaDetecciones = []
+
+        #print("Matriz detecciones: \n", self.MatrizDetecciones)
+        
+        self.get_stadistics()
         cap.release()
 
-
+    def get_stadistics(self):
+        MaximoDetecciones = []
+        row, column = self.MatrizDetecciones.shape
+        for j in range(column):
+            aux = 0
+            for i in range(row):
+                if (self.MatrizDetecciones[i][j] > aux):
+                    aux = self.MatrizDetecciones[i][j]
+            MaximoDetecciones.append(aux)
+            #print("Zona: ", j+1, " Se ha detectado un Maximo de: ", aux, "Personas")
+        return MaximoDetecciones
 #if __name__ == '__main__':
 #    cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\proyecto-20240121T230321Z-001\proyecto\video.webm")
 #    ventana = ContadorPersonas()
