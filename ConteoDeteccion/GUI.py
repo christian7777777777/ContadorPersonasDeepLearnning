@@ -5,6 +5,8 @@ import cv2
 from ContadorPersonas import ContadorPersonas
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.cm as cm
+import numpy as np
 
 class PersonDetectionApp:
     def __init__(self, root):
@@ -12,6 +14,7 @@ class PersonDetectionApp:
         self.root.title("Detección y conteo de personas")
 
         self.cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\8tavo Semestre\Deep Learnning\Proyecto\ContadorPersonasDeepLearnning\Video\video.webm")
+        self.contador = ContadorPersonas()
 
         self.main_frame = ttk.Frame(self.root)
         self.main_frame.pack(fill=tk.BOTH, expand=True)
@@ -40,14 +43,24 @@ class PersonDetectionApp:
 
         # Radiobuttons
         self.radio_var = tk.IntVar()
-        for i in range(1, 5):
-            ttk.Radiobutton(self.main_frame, text=f"Opción {i}", variable=self.radio_var, value=i).pack()
 
+        valores = ["Aglomeracion Maxima Por zonas", 
+            "Aglomercacion Zona 1",
+            "Aglomercacion Zona 2",
+            "Aglomercacion Zona 3",
+            "Aglomercacion Zona 4",
+            "Aglomercacion Zona 5",
+            "Aglomercacion Zona 6",
+            "Aglomercacion Zona 7"]
+        
+        self.Tipo_Grafica = ttk.Combobox(self.main_frame, values=valores)
+        self.Tipo_Grafica.current(0)
+        self.Tipo_Grafica.pack(pady=10)
+        
         # Gráficas
         self.figure, self.ax = plt.subplots()
         self.canvas = FigureCanvasTkAgg(self.figure, master=self.main_frame)
         self.canvas.get_tk_widget().pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
-
 
     def start_detection(self):
         self.start_button.config(state=tk.DISABLED)
@@ -62,25 +75,77 @@ class PersonDetectionApp:
         self.cap.release()
 
     def detect_people(self):
-        contador = ContadorPersonas()
-        contador.detector(self.cap)
-        self.maximos = contador.get_stadistics()
+        self.contador.detector(self.cap)
+        self.maximos = self.contador.get_stadistics()
 
         for i, label in enumerate(self.zone_labels_text, start=0):
             label.set(f"Maximo de Detecciones en Zona {i+1}: {self.maximos[i]} Personas")
 
     def show_graphs(self):
-        x = [1, 2, 3, 4, 5, 6, 7]
-        y = self.maximos
+        self.ax.clear()
 
-        self.ax.set_title("Gráfica Aglomeración por Zonas")
-        self.ax.stem(x, y)
+        tipoGrafica = self.Tipo_Grafica.get()
 
-        self.ax.set_xlabel("Zonas")
-        self.ax.set_ylabel("Máximo de personas")
+        if tipoGrafica == "Aglomeracion Maxima Por zonas":
+            x = ["Zona 1", "Zona 2", "Zona 3", "Zona 4", "Zona 5", "Zona 6", "Zona 7"]
+            y = self.maximos
+            self.ax.set_title("Gráfica Aglomeración por Zonas")
+            self.ax.bar(x, y, color="skyblue")
+            self.ax.grid(True)
+            self.ax.set_xlabel("Zonas")
+            self.ax.set_ylabel("Máximo de personas")
 
+        elif tipoGrafica == "Aglomercacion Zona 1":
+            x, y = self.contador.get_stadistics_zone(0)
+            self.ax.set_title("Gráfica Aglomeración Zona 1")
+            self.ax.plot(x, y, color='green', label='Zona 1')
+            self.ax.grid(True)
+            self.ax.set_xlabel("Frame")
+            self.ax.set_ylabel("Personas por Frame")
+        elif tipoGrafica == "Aglomercacion Zona 2":
+            x, y = self.contador.get_stadistics_zone(1)
+            self.ax.set_title("Gráfica Aglomeración Zona 2")
+            self.ax.plot(x, y, color='green', label='Zona 2')
+            self.ax.grid(True)
+            self.ax.set_xlabel("Frame")
+            self.ax.set_ylabel("Personas por Frame")
+        elif tipoGrafica == "Aglomercacion Zona 3":
+            x, y = self.contador.get_stadistics_zone(2)
+            self.ax.set_title("Gráfica Aglomeración Zona 3")
+            self.ax.plot(x, y, color='green', label='Zona 3')
+            self.ax.grid(True)
+            self.ax.set_xlabel("Frame")
+            self.ax.set_ylabel("Personas por Frame")
+        elif tipoGrafica == "Aglomercacion Zona 4":
+            x, y = self.contador.get_stadistics_zone(3)
+            self.ax.set_title("Gráfica Aglomeración Zona 4")
+            self.ax.plot(x, y, color='green', label='Zona 4')
+            self.ax.grid(True)
+            self.ax.set_xlabel("Frame")
+            self.ax.set_ylabel("Personas por Frame")
+        elif tipoGrafica == "Aglomercacion Zona 5":
+            x, y = self.contador.get_stadistics_zone(4)
+            self.ax.set_title("Gráfica Aglomeración Zona 5")
+            self.ax.plot(x, y, color='green', label='Zona 5')
+            self.ax.grid(True)
+            self.ax.set_xlabel("Frame")
+            self.ax.set_ylabel("Personas por Frame")
+        elif tipoGrafica == "Aglomercacion Zona 6":
+            x, y = self.contador.get_stadistics_zone(5)
+            self.ax.set_title("Gráfica Aglomeración Zona 6")
+            self.ax.plot(x, y, color='green', label='Zona 6')
+            self.ax.grid(True)
+            self.ax.set_xlabel("Frame")
+            self.ax.set_ylabel("Personas por Frame")
+        elif tipoGrafica == "Aglomercacion Zona 7":
+            x, y = self.contador.get_stadistics_zone(6)
+            self.ax.set_title("Gráfica Aglomeración Zona 7")
+            self.ax.plot(x, y, color='green', label='Zona 7')
+            self.ax.grid(True)
+            self.ax.set_xlabel("Frame")
+            self.ax.set_ylabel("Personas por Frame")
+        
         self.canvas.draw()
-        pass
 
 if __name__ == "__main__":
     root = tk.Tk()

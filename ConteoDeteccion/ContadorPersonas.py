@@ -90,7 +90,8 @@ class ContadorPersonas():
             if fila not in filas_unicas:
                 filas_unicas.append(fila)
 
-        self.MatrizDetecciones = np.array(filas_unicas)
+        self.MatrizDetecciones = np.array(filas_unicas) #Matriz SIN filas repetidas
+        self.MatrizDeteccionesCompleta = np.array(self.ListaDetecciones) #Matriz Completa de detecciones en cada Frame
         self.ListaDetecciones = []
 
         #print("Matriz detecciones: \n", self.MatrizDetecciones)
@@ -109,6 +110,13 @@ class ContadorPersonas():
             MaximoDetecciones.append(aux)
             #print("Zona: ", j+1, " Se ha detectado un Maximo de: ", aux, "Personas")
         return MaximoDetecciones
+    
+    def get_stadistics_zone(self, zone):
+        columna_seleccionada = self.MatrizDeteccionesCompleta[:, zone]
+        vector_x = np.arange(1, self.MatrizDeteccionesCompleta.shape[0] + 1)
+        vector_y = columna_seleccionada
+        return vector_x, vector_y
+
 #if __name__ == '__main__':
 #    cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\proyecto-20240121T230321Z-001\proyecto\video.webm")
 #    ventana = ContadorPersonas()
