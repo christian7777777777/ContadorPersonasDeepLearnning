@@ -12,37 +12,35 @@ class PersonDetectionApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Detección y conteo de personas")
+        #self.root.geometry("1280x1000")
 
         self.cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\8tavo Semestre\Deep Learnning\Proyecto\ContadorPersonasDeepLearnning\Video\video.webm")
         self.contador = ContadorPersonas()
 
         self.main_frame = ttk.Frame(self.root)
-        self.main_frame.pack(fill=tk.BOTH, expand=True)
+        self.main_frame.grid(row=0, column=0, columnspan=8, rowspan=13)
 
         self.create_widgets()
 
     def create_widgets(self):
         self.start_button = ttk.Button(self.main_frame, text="Iniciar", command=self.start_detection)
-        self.start_button.pack(fill=tk.X, pady=10)
+        self.start_button.grid(row=0, column=0)
 
         self.stop_button = ttk.Button(self.main_frame, text="Detener", command=self.stop_detection, state=tk.DISABLED)
-        self.stop_button.pack(fill=tk.X, pady=10)
+        self.stop_button.grid(row=0, column=1)
 
         self.zone_labels = []
         self.zone_labels_text = []
         for i in range(7):
             label_text = tk.StringVar() 
-            label_text.set(f"Maximo de Detecciones en Zona {i+1}: 0 Personas")
+            label_text.set(f"Personas en Zona {i+1}: 0 Personas")
             zone_label = ttk.Label(self.main_frame, textvariable=label_text)
-            zone_label.pack()
+            zone_label.grid(row=i+1, column=0, columnspan=2)
             self.zone_labels.append(zone_label)
             self.zone_labels_text.append(label_text)
 
-        self.show_graph_button = ttk.Button(self.main_frame, text="Mostrar Gráficas", command=self.show_graphs)
-        self.show_graph_button.pack(fill=tk.X, pady=10)
-
-        # Radiobuttons
-        self.radio_var = tk.IntVar()
+        self.show_graph_button = ttk.Button(self.main_frame, text="Graficar", command=self.show_graphs, state=tk.DISABLED)
+        self.show_graph_button.grid(row=9, column=1)
 
         valores = ["Aglomeracion Maxima Por zonas", 
             "Aglomercacion Zona 1",
@@ -55,12 +53,15 @@ class PersonDetectionApp:
         
         self.Tipo_Grafica = ttk.Combobox(self.main_frame, values=valores)
         self.Tipo_Grafica.current(0)
-        self.Tipo_Grafica.pack(pady=10)
+        self.Tipo_Grafica.grid(row=9, column=0)
         
         # Gráficas
         self.figure, self.ax = plt.subplots()
         self.canvas = FigureCanvasTkAgg(self.figure, master=self.main_frame)
-        self.canvas.get_tk_widget().pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
+        self.canvas.get_tk_widget().grid(row=9, column=2, rowspan=4, columnspan=6)
+
+        self.label_video = ttk.Label(self.main_frame, text="VIDEO")
+        self.label_video.grid(row=0, column=2, rowspan=8, columnspan=6)
 
     def start_detection(self):
         self.start_button.config(state=tk.DISABLED)
@@ -71,15 +72,13 @@ class PersonDetectionApp:
     def stop_detection(self):
         self.start_button.config(state=tk.NORMAL)
         self.stop_button.config(state=tk.DISABLED)
+        self.show_graph_button.config(state=tk.NORMAL)
 
         self.cap.release()
 
     def detect_people(self):
-        self.contador.detector(self.cap)
+        self.contador.detector(self.cap, self.label_video, self.zone_labels_text)
         self.maximos = self.contador.get_stadistics()
-
-        for i, label in enumerate(self.zone_labels_text, start=0):
-            label.set(f"Maximo de Detecciones en Zona {i+1}: {self.maximos[i]} Personas")
 
     def show_graphs(self):
         self.ax.clear()

@@ -4,6 +4,8 @@ import torch
 import numpy as np 
 import matplotlib.path as mplPath
 from sort import Sort
+import imutils
+from PIL import Image, ImageTk
 
 class ContadorPersonas():
 
@@ -44,17 +46,17 @@ class ContadorPersonas():
     def is_valid_detection(self, xc, yc, zona):
         return mplPath.Path(zona).contains_point((xc, yc))
     
-    def detector(self, cap: object):
+    def detector(self, cap: object, lblVideo: tk, lblDetecciones: list):
   
         model = self.load_model()
         tracker = Sort()
 
         while cap.isOpened():
-            status, frame = cap.read()
+            ret, frame = cap.read()
 
-            if not status:
+            if not ret:
                 break
-            
+
             preds = model(frame)
             bboxes = self.get_bdoxes(preds)
             
@@ -77,10 +79,20 @@ class ContadorPersonas():
                 x_center, y_center = self.get_center_zona(zona)
                 cv2.polylines(img=frame, pts=[zona], isClosed=True, color=(0, 0, 255), thickness=2)
                 cv2.putText(img=frame, text=f"Zona{i}: {deteccion_zona[i-1]}", org=(x_center, y_center), fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=(255, 255, 255), thickness=2)
+                lblDetecciones[i-1].set(f"Personas en Zona {i}: {deteccion_zona[i-1]} Personas")
 
             self.ListaDetecciones.append(deteccion_zona)
 
-            cv2.imshow("frame", frame)
+            # Rendimensionamos el video
+            frame = imutils.resize(frame, width=640)
+
+            # Convertimos el video
+            im = Image.fromarray(frame)
+            img = ImageTk.PhotoImage(image=im)
+
+            # Mostramos en el GUI
+            lblVideo.configure(image=img)
+            lblVideo.image = img
 
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
@@ -93,10 +105,8 @@ class ContadorPersonas():
         self.MatrizDetecciones = np.array(filas_unicas) #Matriz SIN filas repetidas
         self.MatrizDeteccionesCompleta = np.array(self.ListaDetecciones) #Matriz Completa de detecciones en cada Frame
         self.ListaDetecciones = []
-
-        #print("Matriz detecciones: \n", self.MatrizDetecciones)
-        
         self.get_stadistics()
+
         cap.release()
 
     def get_stadistics(self):
@@ -117,8 +127,3 @@ class ContadorPersonas():
         vector_y = columna_seleccionada
         return vector_x, vector_y
 
-#if __name__ == '__main__':
-#    cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\proyecto-20240121T230321Z-001\proyecto\video.webm")
-#    ventana = ContadorPersonas()
-
-#    ventana.detector(cap)
