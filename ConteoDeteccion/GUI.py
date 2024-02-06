@@ -17,16 +17,16 @@ class PersonDetectionApp:
         self.cap = cv2.VideoCapture(r"C:\Users\User\OneDrive\Escritorio\8tavo Semestre\Deep Learnning\Proyecto\ContadorPersonasDeepLearnning\Video\video.webm")
         self.contador = ContadorPersonas()
 
-        self.main_frame = ttk.Frame(self.root)
+        self.main_frame = tk.Frame(self.root, border=5, borderwidth=5)
         self.main_frame.grid(row=0, column=0, columnspan=8, rowspan=13)
 
         self.create_widgets()
 
     def create_widgets(self):
-        self.start_button = ttk.Button(self.main_frame, text="Iniciar", command=self.start_detection)
+        self.start_button = tk.Button(self.main_frame, text="Iniciar", command=self.start_detection, border=5, background="#B4C77F", foreground="black", borderwidth=5, font=("Times", 12), width=10)
         self.start_button.grid(row=0, column=0)
 
-        self.stop_button = ttk.Button(self.main_frame, text="Detener", command=self.stop_detection, state=tk.DISABLED)
+        self.stop_button = tk.Button(self.main_frame, text="Detener", command=self.stop_detection, state=tk.DISABLED, border=5, background="#FF8383", foreground="black", borderwidth=5, font=("Times", 12), width=10)
         self.stop_button.grid(row=0, column=1)
 
         self.zone_labels = []
@@ -39,7 +39,7 @@ class PersonDetectionApp:
             self.zone_labels.append(zone_label)
             self.zone_labels_text.append(label_text)
 
-        self.show_graph_button = ttk.Button(self.main_frame, text="Graficar", command=self.show_graphs, state=tk.DISABLED)
+        self.show_graph_button = tk.Button(self.main_frame, text="Graficar", command=self.show_graphs, state=tk.DISABLED, border=5, background="#83C8FF", foreground="black", borderwidth=5, font=("Times", 12), width=5)
         self.show_graph_button.grid(row=9, column=1)
 
         valores = ["Aglomeracion Maxima Por zonas", 
@@ -51,7 +51,7 @@ class PersonDetectionApp:
             "Aglomercacion Zona 6",
             "Aglomercacion Zona 7"]
         
-        self.Tipo_Grafica = ttk.Combobox(self.main_frame, values=valores)
+        self.Tipo_Grafica = ttk.Combobox(self.main_frame, values=valores, background="#AFC8DB", foreground="black", width=15, font=("Times", 12))
         self.Tipo_Grafica.current(0)
         self.Tipo_Grafica.grid(row=9, column=0)
         
