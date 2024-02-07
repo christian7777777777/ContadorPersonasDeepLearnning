@@ -7,10 +7,11 @@ Este proyecto utiliza técnicas de visión por computadora y aprendizaje profund
 2. Instala las dependencias necesarias: pip install -r requirements.txt
 
 # Uso
-1. Ejecuta el archivo "GUI.py" y se desplegara la interfaz Grafica de Usuario(GUI) Principal, podras visualizar en la parte superior-izquierda, dos botones; "Iniciar" para empezar con la deteccion y "Detener" para detener el proceso de deteccion.
-2. Debajo de los botones vizualizaras 7 Etiquetas en las cuales se mostraran las metricas de conteo de las predicciones del video, tambien podras ver las metricas dentro del video mismo.
-3. Debajo de las etiquetas, estaran un ComboBox el cual contiene las opciones para graficar resultados. Importante saber que esta seccion solo es valida cuando ya se ha detenido el proceso de Deteccion. Solo una vez detenido el proceso de deteccion se hablilitara el boton "Graficar"
-4. En la parte derecha de la GUI se visualizara un label donde se mortrara el video una vez iniciado el proceso y debajo de este un Axis para las graficas.
+1. Ejecuta el archivo "GUI.py" y se desplegara la interfaz Grafica de Usuario(GUI) Principal, podras visualizar en la parte superior-izquierda, dos botones; "Iniciar" para empezar con la deteccion y "Detener" para detener el proceso de deteccion. Procurar tener instalado las librerias necesarias para correr el codigo y editar el PATH del video en funcion del directorio donde se haya clonado el proyecto.
+3. Debajo de los botones vizualizaras 7 Etiquetas en las cuales se mostraran las metricas de conteo de las predicciones del video, tambien podras ver las metricas dentro del video mismo.
+4. Debajo de las etiquetas, estaran un ComboBox el cual contiene las opciones para graficar resultados. Importante saber que esta seccion solo es valida cuando ya se ha detenido el proceso de Deteccion. Solo una vez detenido el proceso de deteccion se hablilitara el boton "Graficar"
+5. En la parte derecha de la GUI se visualizara un label donde se mortrara el video una vez iniciado el proceso y debajo de este un Axis para las graficas.
+6. Para visualizar las graficas, elejir una opcion del ComboBox(Por defecto ewsta en "Valores maximos de aglomeracion por zona") y presionar "Graficar", Importante hacerlo una vez detenido el proceso de Deteccion. Para cerrar El programa solo dar click en la "X" de la Ventana Principal.
 
 # Caracteristicas
 * Detección y seguimiento de personas en tiempo real.
