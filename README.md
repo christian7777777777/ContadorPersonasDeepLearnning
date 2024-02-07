@@ -3,11 +3,11 @@ Proyecto de Deep Learnning con Python para detectar y contar personas con YOLO d
 Este proyecto utiliza técnicas de visión por computadora y aprendizaje profundo para detectar y contar personas en un video en tiempo real. Utiliza el modelo YOLOv5 para la detección de personas y el algoritmo SORT para el seguimiento de objetos.
 
 # Instalación
-1. Clona este repositorio en tu máquina local
-2. Instala las dependencias necesarias
+1. Clona este repositorio en tu máquina local: https://github.com/christian7777777777/ContadorPersonasDeepLearnning.git
+2. Instala las dependencias necesarias: pip install -r requirements.txt
 
 # Uso
-1. Ejecuta el archivo /'UI.py/' y se desplegara la interfaz Grafica de Usuario(GUI) Principal, podras visualizar en la parte superior-izquierda, dos botones; "Iniciar" para empezar con la deteccion y "Detener" para detener el proceso de deteccion.
+1. Ejecuta el archivo "GUI.py" y se desplegara la interfaz Grafica de Usuario(GUI) Principal, podras visualizar en la parte superior-izquierda, dos botones; "Iniciar" para empezar con la deteccion y "Detener" para detener el proceso de deteccion.
 2. Debajo de los botones vizualizaras 7 Etiquetas en las cuales se mostraran las metricas de conteo de las predicciones del video, tambien podras ver las metricas dentro del video mismo.
 3. Debajo de las etiquetas, estaran un ComboBox el cual contiene las opciones para graficar resultados. Importante saber que esta seccion solo es valida cuando ya se ha detenido el proceso de Deteccion. Solo una vez detenido el proceso de deteccion se hablilitara el boton "Graficar"
 4. En la parte derecha de la GUI se visualizara un label donde se mortrara el video una vez iniciado el proceso y debajo de este un Axis para las graficas.
