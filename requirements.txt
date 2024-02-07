@@ -1,0 +1,5 @@
+opencv-python
+torch>=1.9.0
+matplotlib
+imutils
+pillow
