@@ -12,6 +12,7 @@ Este proyecto utiliza técnicas de visión por computadora y aprendizaje profund
 4. Debajo de las etiquetas, estaran un ComboBox el cual contiene las opciones para graficar resultados. Importante saber que esta seccion solo es valida cuando ya se ha detenido el proceso de Deteccion. Solo una vez detenido el proceso de deteccion se hablilitara el boton "Graficar"
 5. En la parte derecha de la GUI se visualizara un label donde se mortrara el video una vez iniciado el proceso y debajo de este un Axis para las graficas.
 6. Para visualizar las graficas, elejir una opcion del ComboBox(Por defecto ewsta en "Valores maximos de aglomeracion por zona") y presionar "Graficar", Importante hacerlo una vez detenido el proceso de Deteccion. Para cerrar El programa solo dar click en la "X" de la Ventana Principal.
+7. Para mejor comprension revisar este video exlicativo: https://youtu.be/nIhCFL6hDeI
 
 # Caracteristicas
 * Detección y seguimiento de personas en tiempo real.
