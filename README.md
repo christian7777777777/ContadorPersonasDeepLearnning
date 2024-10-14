@@ -1,4 +1,4 @@
-# Contador Personas  Deep Learnning con Python
+# Contador Personas  Deep Learning con Python
 Proyecto de Deep Learnning con Python para detectar y contar personas con YOLO de Ultralytics
 Este proyecto utiliza técnicas de visión por computadora y aprendizaje profundo para detectar y contar personas en un video en tiempo real. Utiliza el modelo YOLOv5 para la detección de personas y el algoritmo SORT para el seguimiento de objetos.
 
